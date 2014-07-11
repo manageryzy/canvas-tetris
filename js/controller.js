@@ -9,4 +9,5 @@ document.body.onkeydown = function( e ) {
         keyPress( keys[ e.keyCode ] );
         render();
     }
+	e.preventDefault();
 };

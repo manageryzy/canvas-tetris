@@ -2,7 +2,10 @@ var COLS = 10, ROWS = 20;
 var board = [];
 var lose;
 var interval;
+var speed=1;
+var score=0;
 var current; // current moving shape
+var future=[[5,5,5,5],[0,0,0,0],[0,0,0,0],[0,0,0,0]];//next shape;
 var currentX, currentY; // position of current shape
 var shapes = [
     [ 1, 1, 1, 1 ],
@@ -29,16 +32,17 @@ function newShape() {
     var id = Math.floor( Math.random() * shapes.length );
     var shape = shapes[ id ]; // maintain id for color filling
 
-    current = [];
+    current = future;
+	future=[];
     for ( var y = 0; y < 4; ++y ) {
-        current[ y ] = [];
+        future[ y ] = [];
         for ( var x = 0; x < 4; ++x ) {
             var i = 4 * y + x;
             if ( typeof shape[ i ] != 'undefined' && shape[ i ] ) {
-                current[ y ][ x ] = id + 1;
+                future[ y ][ x ] = id + 1;
             }
             else {
-                current[ y ][ x ] = 0;
+                future[ y ][ x ] = 0;
             }
         }
     }
@@ -67,7 +71,9 @@ function tick() {
         freeze();
         clearLines();
         if (lose) {
-            newGame();
+            clearInterval(interval);
+			$('#welcome_pic').show();
+			
             return false;
         }    
         newShape();
@@ -114,6 +120,10 @@ function clearLines() {
                     board[ yy ][ x ] = board[ yy - 1 ][ x ];
                 }
             }
+			score+=speed;
+			speed++;
+			clearInterval(interval);
+			interval = setInterval( tick, 1000/speed );
             ++y;
         }
     }
@@ -176,9 +186,10 @@ function valid( offsetX, offsetY, newCurrent ) {
 function newGame() {
     clearInterval(interval);
     init();
+	score=0;
+	speed=1;
     newShape();
     lose = false;
-    interval = setInterval( tick, 250 );
+    interval = setInterval( tick, 1000/speed );
 }
 
-newGame();

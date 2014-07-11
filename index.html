@@ -2,10 +2,27 @@
 <html>
     <head>
         <title>HTML5 Tetris</title>
+        <meta charset="utf-8">
         <link rel='stylesheet' href='style.css' />
+        <script src="js/jquery-2.1.0.min.js"></script>
     </head>
     <body>
-        <canvas width='300' height='600'></canvas>
+    	<div id="game_container">
+        	<canvas width='300' height='600' id="game_canvas">
+        		<!--Main frame of the game! -->
+        		Your borser do not support html5!
+        	</canvas>
+            <div id="info_container">
+            	<h1>Teris!</h1>
+              	<h2 id="next_show">next:</h2>
+                <canvas width='120' height='120' id="preview_canvas">
+        			<!--preview of the next block -->
+        		</canvas>
+                <h2 id="score_bar">score:0</h2>
+                <h2 id="speed_bar">speed:1</h2>
+            </div>
+        </div>
+        <img id="welcome_pic" src="img/welcome.png" onClick="new function(){$('#welcome_pic').hide(100);newGame();}">
         <script src='js/tetris.js'></script>
         <script src='js/controller.js'></script>
         <script src='js/render.js'></script>

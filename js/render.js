@@ -1,5 +1,7 @@
-var canvas = document.getElementsByTagName( 'canvas' )[ 0 ];
+var canvas = document.getElementById('game_canvas');
 var ctx = canvas.getContext( '2d' );
+var canvas_prev = document.getElementById('preview_canvas');
+var pctx = canvas_prev.getContext( '2d' );
 var W = 300, H = 600;
 var BLOCK_W = W / COLS, BLOCK_H = H / ROWS;
 
@@ -33,6 +35,23 @@ function render() {
             }
         }
     }
+	
+	pctx.clearRect(0,0,120,120);
+	pctx.fillStyle = 'red';
+    pctx.strokeStyle = 'black';
+    for ( var y = 0; y < 4; ++y ) {
+        for ( var x = 0; x < 4; ++x ) {
+            if ( future[ y ][ x ] ) {
+                pctx.fillStyle = colors[ future[ y ][ x ] - 1 ];
+                pctx.fillRect( BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1 , BLOCK_H - 1 );
+   				pctx.strokeRect( BLOCK_W * x, BLOCK_H * y, BLOCK_W - 1 , BLOCK_H - 1 );
+            }
+        }
+    }
+	
+	$("#score_bar").text("score:"+score);
+	$("#speed_bar").text("speed:"+speed);
+	
 }
 
 setInterval( render, 30 );
