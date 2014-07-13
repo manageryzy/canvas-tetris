@@ -4,6 +4,8 @@ var lose;
 var interval;
 var speed=1;
 var score=0;
+var ifPause=false;
+var keyPressLock=false;//lock this when processing the key event to avoid problem in ansi problem.
 var current; // current moving shape
 var future=[[5,5,5,5],[0,0,0,0],[0,0,0,0],[0,0,0,0]];//next shape;
 var currentX, currentY; // position of current shape
@@ -130,13 +132,19 @@ function clearLines() {
 }
 
 function keyPress( key ) {
+	while(keyPressLock);
+	keyPressLock=true;
+	if(currentX>6&&currentY==1)currentX=6;
+	if(currentX<1&&currentY==1)currentX=1;
     switch ( key ) {
         case 'left':
+			console.log("Cuttent x ="+currentX);
             if ( valid( -1 ) ) {
                 --currentX;
             }
             break;
         case 'right':
+			console.log("Cuttent x ="+currentX);
             if ( valid( 1 ) ) {
                 ++currentX;
             }
@@ -152,7 +160,20 @@ function keyPress( key ) {
                 current = rotated;
             }
             break;
+		case 'pause':
+			if(ifPause==false)
+			{
+				ifPause=true;
+				clearInterval(interval);
+			}
+			else
+			{
+				ifPause=false;
+				interval = setInterval( tick, 1000/speed );
+			}
+			
     }
+	keyPressLock=false;
 }
 
 // checks if the resulting position of current shape will be feasible
@@ -174,7 +195,8 @@ function valid( offsetX, offsetY, newCurrent ) {
                   || x + offsetX < 0
                   || y + offsetY >= ROWS
                   || x + offsetX >= COLS ) {
-                    if (offsetY == 1) lose = true; // lose if the current shape at the top row when checked
+                    if (offsetY == 1) 
+						lose = true; // lose if the current shape at the top row when checked
                     return false;
                 }
             }
@@ -185,6 +207,7 @@ function valid( offsetX, offsetY, newCurrent ) {
 
 function newGame() {
     clearInterval(interval);
+	ifPause=false;
     init();
 	score=0;
 	speed=1;

@@ -7,6 +7,7 @@
         <script src="js/jquery-2.1.0.min.js"></script>
     </head>
     <body>
+	
     	<div id="game_container">
         	<canvas width='300' height='600' id="game_canvas">
         		<!--Main frame of the game! -->
@@ -22,7 +23,9 @@
                 <h2 id="speed_bar">speed:1</h2>
             </div>
         </div>
-        <img id="welcome_pic" src="img/welcome.png" onClick="new function(){$('#welcome_pic').hide(100);newGame();}">
+		<h1>Game help:space to pause. up to rotate.<br/>
+		    left right and down to move!Have fun XDD. </h1>
+        <img id="welcome_pic" src="./img/welcome.png" onClick="new function(){$('#welcome_pic').hide(100);newGame();}">
         <script src='js/tetris.js'></script>
         <script src='js/controller.js'></script>
         <script src='js/render.js'></script>
